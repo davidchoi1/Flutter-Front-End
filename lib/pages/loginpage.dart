@@ -28,23 +28,8 @@ class _LoginPageState extends State<LoginPage> {
         );
       },
     );
-
-    // try sign in
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      // pop loading circle
-      Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
-      // show error message
-      showErrorMessage(e.code);
-    }
-  }
-
-  void showErrorMessage(String message) {
+    // user sign in error function
+    void showErrorMessage(String message) {
     showDialog(
       context: context,
       builder: (context) {
@@ -56,6 +41,21 @@ class _LoginPageState extends State<LoginPage> {
         );
       },
     );
+  }
+
+    // try sign in
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      // pop loading circle
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      // show error message (wrong email/pass)
+      showErrorMessage(e.code);
+    }
   }
 
   @override

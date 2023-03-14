@@ -1,8 +1,10 @@
+import 'package:circle_app/pages/personalinfopage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../components/button.dart';
 import '../components/textfield.dart';
+import 'authpage.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -18,8 +20,16 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
+  // navigate to next page function
+  void _navigateToNext(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const PersonalInfoPage()),
+    );
+  }
+
   // user sign up function
-  void signUserUp() async {
+  void signUserUp(BuildContext context) async {
     // show loading circle
     showDialog(
       context: context,
@@ -29,6 +39,21 @@ class _RegisterPageState extends State<RegisterPage> {
         );
       },
     );
+
+    // user input error function
+    void showErrorMessage(String message) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.deepOrange,
+            title: Center(
+              child: Text(message, style: const TextStyle(color: Colors.white)),
+            ),
+          );
+        },
+      );
+    }
 
     // try creating user
     try {
@@ -49,20 +74,8 @@ class _RegisterPageState extends State<RegisterPage> {
       // show error message
       showErrorMessage(e.code);
     }
-  }
 
-  void showErrorMessage(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.deepOrange,
-          title: Center(
-            child: Text(message, style: const TextStyle(color: Colors.white)),
-          ),
-        );
-      },
-    );
+    _navigateToNext(context);
   }
 
   @override
@@ -78,10 +91,11 @@ class _RegisterPageState extends State<RegisterPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  const SizedBox(height: 20),
                   // logo
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Icon(
                         Icons.radio_button_unchecked,
                         size: 75,
@@ -124,7 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // sign in button
                   MyButton(
-                    onTap: signUserUp,
+                    onTap: () => signUserUp(context),
                     message: "Register",
                   ),
                   const SizedBox(height: 50),

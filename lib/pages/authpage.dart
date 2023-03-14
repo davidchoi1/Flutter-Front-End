@@ -1,27 +1,28 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-
 import 'homepage.dart';
 import 'loginorregister.dart';
-import 'loginpage.dart';
 
 class AuthPage extends StatelessWidget {
+
   const AuthPage({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
+        stream: FirebaseAuth.instance
+            .authStateChanges(), // authorized state changes
         builder: (context, snapshot) {
           // user is logged in
           if (snapshot.hasData) {
-            return HomePage();
+            return HomePage(); // if cred correct, navigate to homepage
           }
           //user not logged in
           else {
-            return LoginOrRegisterPage();
+            return LoginOrRegisterPage(); // return login or register toggle pages
           }
         },
       ),
