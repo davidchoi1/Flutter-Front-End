@@ -146,7 +146,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               const SizedBox(height: 10),
               // gender textfield
               MyTextField(
-                controller: civilController,
+                controller: genderController,
                 hintText: "Male/Female/Other",
                 obscureText: false,
               ),
@@ -169,7 +169,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               const SizedBox(height: 10),
               // phone number textfield
               MyTextField(
-                controller: civilController,
+                controller: numberController,
                 hintText: "Ex: 1-213-344-9081",
                 obscureText: false,
               ),
