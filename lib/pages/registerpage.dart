@@ -20,11 +20,18 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-  // navigate to next page function
-  void _navigateToNext(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const PersonalInfoPage()),
+  // user input error function
+  void showErrorMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.deepOrange,
+          title: Center(
+            child: Text(message, style: const TextStyle(color: Colors.white)),
+          ),
+        );
+      },
     );
   }
 
@@ -40,21 +47,6 @@ class _RegisterPageState extends State<RegisterPage> {
       },
     );
 
-    // user input error function
-    void showErrorMessage(String message) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Colors.deepOrange,
-            title: Center(
-              child: Text(message, style: const TextStyle(color: Colors.white)),
-            ),
-          );
-        },
-      );
-    }
-
     // try creating user
     try {
       // check if password is confirmed
@@ -64,18 +56,25 @@ class _RegisterPageState extends State<RegisterPage> {
           password: passwordController.text,
         );
       } else {
+        Navigator.pop(context);
         //show error message: passwords don't match
         showErrorMessage("Passwords don't match");
       }
-      // pop loading circle
-      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       // show error message
       showErrorMessage(e.code);
     }
 
-    _navigateToNext(context);
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // User is already signed in, navigate to home page
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const PersonalInfoPage(),
+        ),
+      );
+    }
   }
 
   @override
@@ -138,7 +137,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // sign in button
                   MyButton(
-                    onTap: () => signUserUp(context),
+                    onTap: () {
+                      signUserUp(context);
+                    },
                     message: "Register",
                   ),
                   const SizedBox(height: 50),
