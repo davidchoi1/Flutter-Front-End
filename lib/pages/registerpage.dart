@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../components/button.dart';
 import '../components/textfield.dart';
-import 'authpage.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -51,10 +50,15 @@ class _RegisterPageState extends State<RegisterPage> {
     try {
       // check if password is confirmed
       if (passwordController.text == confirmPasswordController.text) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
+        if (passwordController.text.length >= 6) {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text,
+            password: passwordController.text,
+          );
+        } else {
+          Navigator.pop(context);
+          showErrorMessage('Password must be at least 6 characters');
+        }
       } else {
         Navigator.pop(context);
         //show error message: passwords don't match
@@ -98,6 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Icon(
                         Icons.radio_button_unchecked,
                         size: 75,
+                        color: Colors.black,
                       ),
                     ],
                   ),

@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
           title: const Text("Login Page"),
           backgroundColor: Colors.black,
         ),
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Color.fromRGBO(224, 224, 224, 1),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -77,14 +77,15 @@ class _LoginPageState extends State<LoginPage> {
                   // logo
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
+                    children: const [
+                      Icon(
                         Icons.radio_button_unchecked,
                         size: 100,
+                        color: Colors.black,
                       ),
                       Text("MyCircle",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 60)),
+                              fontWeight: FontWeight.bold, fontSize: 60, color: Colors.black,)),
                     ],
                   ),
                   const SizedBox(height: 50),
