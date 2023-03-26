@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../components/button.dart';
 
 class SurveyPage extends StatefulWidget {
@@ -10,12 +9,16 @@ class SurveyPage extends StatefulWidget {
 }
 
 class _SurveyPageState extends State<SurveyPage> {
+  //slidermaxdivisions
+  final double MAX_AMOUNT = 5;
+  final int MAX_DIVISIONS = 5;
   //emptyFunction() does nothing for now
   void Function() get emptyFunction => () {};
   // slider values of all 20 questions
   List<double> currentSliderValues = List<double>.filled(20, 0);
   // strings for slider sliderLabels
   List<String> sliderLabels = [
+    'Choose One',
     'Never',
     'Rarely',
     'Sometimes',
@@ -66,8 +69,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[0],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[0].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -102,8 +105,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[1],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[1].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -119,7 +122,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 3 
+            // Question 3
             Row(
               children: const [
                 Flexible(
@@ -137,8 +140,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[2],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[2].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -173,8 +176,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[3],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[3].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -190,7 +193,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 5 
+            // Question 5
             Row(
               children: const [
                 Flexible(
@@ -209,8 +212,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[4],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[4].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -250,8 +253,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[5],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[5].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -267,7 +270,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 7 
+            // Question 7
             Row(
               children: const [
                 Flexible(
@@ -286,8 +289,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[6],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[6].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -322,8 +325,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[7],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[7].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -358,8 +361,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[8],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[8].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -394,8 +397,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[9],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[9].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -430,8 +433,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[10],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[10].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -466,8 +469,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[11],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[11].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -502,8 +505,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[12],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[12].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -538,8 +541,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[13],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[13].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -574,8 +577,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[14],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[14].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -610,8 +613,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[15],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[15].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -645,8 +648,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[16],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[16].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -681,8 +684,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[17],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[17].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -716,8 +719,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[18],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[18].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,
@@ -752,8 +755,8 @@ class _SurveyPageState extends State<SurveyPage> {
             const SizedBox(height: 10),
             Slider(
               value: currentSliderValues[19],
-              max: 4,
-              divisions: 4,
+              max: MAX_AMOUNT,
+              divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[19].toInt()],
               inactiveColor: Colors.grey[200],
               activeColor: Colors.blueGrey,

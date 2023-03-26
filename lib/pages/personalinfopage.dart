@@ -2,8 +2,7 @@ import 'package:circle_app/pages/surveypage.dart';
 import 'package:flutter/material.dart';
 import 'package:circle_app/components/dropdown.dart';
 import '../components/button.dart';
-import '../components/textfield.dart';
-import 'package:flutter/cupertino.dart';
+import '../components/textformfield.dart';
 
 class PersonalInfoPage extends StatefulWidget {
   const PersonalInfoPage({super.key});
@@ -28,6 +27,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   //datetime variable
   DateTime _dateTime = DateTime.utc(1993, 10, 18);
+
+  //formkey for input validation
+  final _formkey = GlobalKey<FormState>();
 
   //navigate to next page
   void _navigateToNext(BuildContext context) {
@@ -72,232 +74,246 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("Personal Information"),
-        backgroundColor: Colors.black,
-      ),
-      backgroundColor: Colors.grey[300],
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              // personal information text
-              const Text(
-                  "Let's get your personal information for your account!",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 79, 77, 77),
-                    fontSize: 16,
-                  )),
-              const SizedBox(height: 20),
+    return Form(
+      key: _formkey,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text("Personal Information"),
+          backgroundColor: Colors.black,
+        ),
+        backgroundColor: Colors.grey[300],
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
 
-              // name text
-              Row(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Text("Name*",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              // email textfield
-              MyTextField(
-                controller: firstNameController,
-                hintText: "First Name",
-                obscureText: false,
-              ),
-              const SizedBox(height: 10),
-              // password textfield
-              MyTextField(
-                controller: lastNameController,
-                hintText: "Last Name",
-                obscureText: false,
-              ),
-              const SizedBox(height: 50),
+                // personal information text
+                const SizedBox(height: 20),
+                const Text(
+                    "Let's get your personal information for your account!",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 79, 77, 77),
+                      fontSize: 16,
+                    )),
+                const SizedBox(height: 20),
 
-              // dob text
-              Row(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Text("Date of Birth*",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              // Date of Birth - date picker
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: SizedBox(
-                  height: 50,
-                  child: MaterialButton(
-                      onPressed: _showDatePicker,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.0)),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '${_dateTime.month}/${_dateTime.day}/${_dateTime.year} (Click to Change)',
-                          style: const TextStyle(
-                              color: Color.fromRGBO(158, 158, 158, 1),
-                              fontSize: 16),
-                        ),
-                      )),
-                ),
-              ),
-              const SizedBox(height: 50),
-
-              // Civil Status text
-              Row(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Text("Civil status*",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              // civil status dropdownbuttonwidget
-              DropdownButtonWidget<String>(
-                items: const ['Single', 'Married', 'Divorced', 'Widowed'],
-                onItemSelected: (value) {
-                  civilStatus = value;
-                },
-                hintText: 'Choose Civil Status',
-              ),
-
-              const SizedBox(height: 50),
-
-              // gender text
-              Row(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Text("Gender*",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              // gender dropdownbuttonwidget
-              DropdownButtonWidget<String>(
-                  items: const [
-                    'Male',
-                    'Female',
-                    'Other',
-                    'Prefer Not to Answer'
+                // name textfields
+                Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Text("Name*",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
                   ],
+                ),
+                const SizedBox(height: 10),
+                MyTextFormField(
+                  controller: firstNameController,
+                  hintText: "First Name",
+                  inputError: "Please include first name",
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+                MyTextFormField(
+                  controller: lastNameController,
+                  hintText: "Last Name",
+                  inputError: "Please include last name",
+                  obscureText: false,
+                ),
+                const SizedBox(height: 50),
+
+                // Date picker
+                Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Text("Date of Birth*",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: SizedBox(
+                    height: 50,
+                    child: MaterialButton(
+                        onPressed: _showDatePicker,
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0)),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            '${_dateTime.month}/${_dateTime.day}/${_dateTime.year} (Click to Change)',
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16),
+                          ),
+                        )),
+                  ),
+                ),
+                const SizedBox(height: 50),
+
+                // Civil Status dropdown button
+                Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Text("Civil status*",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                DropdownButtonWidget<String>(
+                  items: const ['Single', 'Married', 'Divorced', 'Widowed'],
                   onItemSelected: (value) {
                     civilStatus = value;
                   },
-                  hintText: 'Choose Gender'),
-              const SizedBox(height: 50),
+                  hintText: 'Choose Civil Status',
+                  inputError: 'Please Pick Civil Status',
+                  
+                ),
+                const SizedBox(height: 50),
 
-              // phone number text
-              Row(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Text("Phone number",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              // phone number textfield
-              MyTextField(
-                controller: numberController,
-                hintText: "Ex: 1-213-344-9081",
-                obscureText: false,
-              ),
-              const SizedBox(height: 50),
+                // gender dropdown button
+                Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Text("Gender*",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                DropdownButtonWidget<String>(
+                    items: const [
+                      'Male',
+                      'Female',
+                      'Other',
+                      'Prefer Not to Answer'
+                    ],
+                    onItemSelected: (value) {
+                      civilStatus = value;
+                    },
+                    hintText: 'Choose Gender',
+                    inputError: 'Please choose gender',
+                ),
+                const SizedBox(height: 50),
 
-              // address text
-              Row(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Text("Residence*",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              // street address textfield
-              MyTextField(
-                controller: streetController,
-                hintText: "Street number and name",
-                obscureText: false,
-              ),
-              const SizedBox(height: 10),
-              // city textfield
-              MyTextField(
-                controller: cityController,
-                hintText: "City",
-                obscureText: false,
-              ),
-              const SizedBox(height: 10),
-              // State textfield
-              MyTextField(
-                controller: stateController,
-                hintText: "State",
-                obscureText: false,
-              ),
-              const SizedBox(height: 10),
-              // zip code textfield
-              MyTextField(
-                controller: zipController,
-                hintText: "Zip Code",
-                obscureText: false,
-              ),
-              const SizedBox(height: 10),
-              // country textfield
-              MyTextField(
-                controller: countryController,
-                hintText: "Country",
-                obscureText: false,
-              ),
-              const SizedBox(height: 10),
+                // phone number textfield
+                Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Text("Phone number*",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                MyTextFormField(
+                  controller: numberController,
+                  hintText: "Ex: 2133449081",
+                  inputError: "Please enter phone number",
+                  obscureText: false,
+                ),
+                const SizedBox(height: 50),
 
-              // continue button
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: MyButton(
-                    onTap: () => _navigateToNext(context),
-                    message: "Continue Next"),
-              ),
-            ],
+                // address textfield
+                Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Text("Residence*",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                MyTextFormField(
+                  controller: streetController,
+                  hintText: "Street number and name",
+                  inputError: "Please complete address",
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+                // city textfield
+                MyTextFormField(
+                  controller: cityController,
+                  hintText: "City",
+                  inputError: "Please complete address",
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+                // State textfield
+                MyTextFormField(
+                  controller: stateController,
+                  hintText: "State",
+                  inputError: "Please complete address",
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+                // zip code textfield
+                MyTextFormField(
+                  controller: zipController,
+                  hintText: "Zip Code",
+                  inputError: "Please complete address",
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+                // country textfield
+                MyTextFormField(
+                  controller: countryController,
+                  hintText: "Country",
+                  inputError: "Please complete address",
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+
+                // continue button
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: MyButton(
+                      onTap: () {
+                        if (_formkey.currentState!.validate()) {
+                          _navigateToNext(context);
+                        } else {
+                          
+                        }
+                      },
+                      message: "Continue Next"),
+                ),
+              ],
+            ),
           ),
         ),
       ),

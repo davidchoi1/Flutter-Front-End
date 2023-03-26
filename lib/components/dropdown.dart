@@ -4,12 +4,14 @@ class DropdownButtonWidget<T> extends StatefulWidget {
   final List<T> items;
   final ValueChanged<T> onItemSelected;
   final String hintText;
+  final String inputError;
 
   const DropdownButtonWidget({
     super.key,
     required this.items,
     required this.onItemSelected,
     required this.hintText,
+    required this.inputError,
   });
 
   @override
@@ -19,7 +21,6 @@ class DropdownButtonWidget<T> extends StatefulWidget {
 
 class _DropdownButtonWidgetState<T> extends State<DropdownButtonWidget<T>> {
   T? _selectedItem;
-  
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,11 @@ class _DropdownButtonWidgetState<T> extends State<DropdownButtonWidget<T>> {
           setState(() {
             _selectedItem = value;
           });
-          widget.onItemSelected(value!);
+        },
+        validator: (value) {
+          if (value == null) {
+            return widget.inputError;
+          }
         },
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
