@@ -1,7 +1,7 @@
 import 'package:circle_app/pages/personalinfopage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import '../classes/userdata.dart';
 import '../components/button.dart';
 import '../components/textfield.dart';
 
@@ -35,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   // user sign up function
-  void signUserUp(BuildContext context) async {
+  void signUserUp(BuildContext context, UserData userData) async {
     // show loading circle
     showDialog(
       context: context,
@@ -55,6 +55,8 @@ class _RegisterPageState extends State<RegisterPage> {
             email: emailController.text,
             password: passwordController.text,
           );
+          userData.email = emailController.text;
+          userData.password = passwordController.text;
         } else {
           Navigator.pop(context);
           showErrorMessage('Password must be at least 6 characters');
@@ -72,10 +74,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      // User is already signed in, navigate to home page
+      // User has been created, log data and continue to next page
+
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const PersonalInfoPage(),
+          builder: (context) => PersonalInfoPage(userData: userData),
         ),
       );
     }
@@ -83,6 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    UserData userData = UserData();
     return Scaffold(
         appBar: AppBar(
           title: const Text("Registration Page"),
@@ -107,7 +111,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
                   const SizedBox(height: 20),
-
                   // create account text
                   const Text("Let's create an account for you!",
                       style: TextStyle(
@@ -143,7 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   // sign in button
                   MyButton(
                     onTap: () {
-                      signUserUp(context);
+                      signUserUp(context, userData);
                     },
                     message: "Register",
                   ),

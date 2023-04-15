@@ -40,6 +40,7 @@ class _DropdownButtonWidgetState<T> extends State<DropdownButtonWidget<T>> {
           setState(() {
             _selectedItem = value;
           });
+          widget.onItemSelected(value!);
         },
         validator: (value) {
           if (value == null) {

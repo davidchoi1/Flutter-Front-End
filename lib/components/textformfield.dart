@@ -33,7 +33,7 @@ class MyTextFormField extends StatelessWidget {
           hintText: hintText,
           hintStyle: TextStyle(color: Color.fromRGBO(158, 158, 158, 1)),
         ),
-        validator: (value) {
+        validator: (value) {                                                        // controller.text = value
           if (value == null || value.isEmpty) {
             return inputError;
           }

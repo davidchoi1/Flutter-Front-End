@@ -1,7 +1,7 @@
-import 'package:circle_app/pages/authpage.dart';
-import 'package:circle_app/pages/personalinfopage.dart';
-import 'package:circle_app/pages/surveypage.dart';
 
+import 'package:circle_app/pages/authpage.dart';
+import 'package:circle_app/pages/homepage.dart';
+import 'package:circle_app/pages/registerpage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

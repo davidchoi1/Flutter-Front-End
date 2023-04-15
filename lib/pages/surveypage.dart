@@ -1,5 +1,8 @@
+import 'package:circle_app/pages/homepage.dart';
 import 'package:flutter/material.dart';
 import '../components/button.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class SurveyPage extends StatefulWidget {
   const SurveyPage({super.key});
@@ -12,10 +15,9 @@ class _SurveyPageState extends State<SurveyPage> {
   //slidermaxdivisions
   final double MAX_AMOUNT = 5;
   final int MAX_DIVISIONS = 5;
-  //emptyFunction() does nothing for now
-  void Function() get emptyFunction => () {};
+
   // slider values of all 20 questions
-  List<double> currentSliderValues = List<double>.filled(20, 0);
+  List<double> currentSliderValues = List<double>.filled(18, 0);
   // strings for slider sliderLabels
   List<String> sliderLabels = [
     'Choose One',
@@ -25,6 +27,62 @@ class _SurveyPageState extends State<SurveyPage> {
     'Often',
     'All the time'
   ];
+
+  //calculation for parameter - average
+  Map<String, dynamic> createMap() {
+    // key value pairing 
+    Map<String, dynamic> map = {};
+
+    List<String> keys = [
+      'Interest Deviation',
+      'Depression',
+      'Sleep',
+      'Social',
+      'Focus',
+      'Irritability',
+      'Obsession/Addiction',
+      'Suicidality',
+      'Movement'
+    ];
+
+    List<List<int>> indexPairs = [
+      [0, 10], // Interest deviation
+      [1, 6], // Depression
+      [2, 9], // Sleep
+      [3, 7], // Social
+      [4, 16], // Focus
+      [5, 8], // Irritability
+      [11, 12], // Obsession Addiction
+      [13, 15], // Suicidallity
+      [14, 17] // Movement
+    ];
+
+    // get the average of each pair of related questions
+    for (int i = 0; i < indexPairs.length; i++) {
+      int firstIndex = indexPairs[i][0];
+      int secondIndex = indexPairs[i][1];
+      double firstNumber = currentSliderValues[firstIndex];
+      double secondNumber = currentSliderValues[secondIndex];
+      double average = (firstNumber + secondNumber) / 2;
+      map[keys[i]] = average;
+    }
+
+    return map;
+  }
+
+  //update request
+  Future<void> sendUpdateRequest() async {
+    final response = await http.patch(Uri.parse(''),                        // object created from patch request to given url (Uniformed Resource Identified object created from parsed url)
+        headers: <String, String>{
+          'Content Type': 'application/json; mental health parameters'      // header for request
+        },
+        body: jsonEncode(createMap()));                                     // sending json-encoded string of map to defined url
+    if (response.statusCode == 200) {
+      // Update successful
+    } else {
+      // Update failed
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +108,7 @@ class _SurveyPageState extends State<SurveyPage> {
             ),
             const SizedBox(height: 10),
 
-            // Question 1
+            // Question 1 (Interest Deviation)
             Row(
               children: const [
                 Flexible(
@@ -86,14 +144,13 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 2
+            // Question 2 (Depression)
             Row(
               children: const [
                 Flexible(
                   child: Padding(
                     padding: EdgeInsets.all(20),
-                    child: Text(
-                        "You have had moments where you feel unaccomplished and ashamed.",
+                    child: Text("You have been feeling depressed and hopeless.",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -122,7 +179,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 3
+            // Question 3 (Sleep)
             Row(
               children: const [
                 Flexible(
@@ -157,7 +214,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 4
+            // Question 4 (Social)
             Row(
               children: const [
                 Flexible(
@@ -193,7 +250,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 5
+            // Question 5 (Focus)
             Row(
               children: const [
                 Flexible(
@@ -234,7 +291,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 6 (1 Irritability Q)
+            // Question 6 (Irritability)
             Row(
               children: const [
                 Flexible(
@@ -270,7 +327,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 7
+            // Question 7 (Depression)
             Row(
               children: const [
                 Flexible(
@@ -306,7 +363,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 8 (2 Social Question)
+            // Question 8 (Social)
             Row(
               children: const [
                 Flexible(
@@ -342,7 +399,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 9 (1 Irritability Question)
+            // Question 9 (Irritability)
             Row(
               children: const [
                 Flexible(
@@ -378,7 +435,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 10
+            // Question 10 (Sleep)
             Row(
               children: const [
                 Flexible(
@@ -414,7 +471,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 11 (2 Interest Deviation Question)
+            // Question 11 (Interest Deviation)
             Row(
               children: const [
                 Flexible(
@@ -450,7 +507,7 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 12
+            // Question 12 (Obsessive)
             Row(
               children: const [
                 Flexible(
@@ -486,14 +543,14 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 13 (3 Social question)
+            // Question 13 (Addiction)
             Row(
               children: const [
                 Flexible(
                   child: Padding(
                     padding: EdgeInsets.all(20),
                     child: Text(
-                        "You have had more difficulty maintaining and concentrating on your daily obligations.",
+                        "You have been abusing drugs and/or alcohol to seek comfort or distraction.",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -522,14 +579,14 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 14 (1 Addiction Question)
+            // Question 14 (Suicide)
             Row(
               children: const [
                 Flexible(
                   child: Padding(
                     padding: EdgeInsets.all(20),
                     child: Text(
-                        "You have been abusing drugs and/or alcohol to seek comfort or distraction.",
+                        "You have had thoughts that you or others would be better off if you were dead.",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -558,14 +615,14 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 15 (2 Suicide Question)
+            // Question 15 (Movement)
             Row(
               children: const [
                 Flexible(
                   child: Padding(
                     padding: EdgeInsets.all(20),
                     child: Text(
-                        "You have had thoughts that you or others would be better off if you were dead.",
+                        "You go for long stretches of time without moving.",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -594,14 +651,13 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 16 (3 Focus Questions)
+            // Question 16 (Suicide)
             Row(
               children: const [
                 Flexible(
                   child: Padding(
                     padding: EdgeInsets.all(20),
-                    child: Text(
-                        "You have had an abnormally difficult time getting out of bed.",
+                    child: Text("You have had thoughts of self harm.",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -630,13 +686,13 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 17 (2 Suicide Questions)
+            // Question 17 (Focus)
             Row(
               children: const [
                 Flexible(
                   child: Padding(
                     padding: EdgeInsets.all(20),
-                    child: Text("You have had thoughts of self harm.",
+                    child: Text("You have had difficulty focusing on tasks.",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -665,14 +721,14 @@ class _SurveyPageState extends State<SurveyPage> {
               color: Colors.blueGrey,
             ),
 
-            // Question 18
+            // Question 18 (Movement)
             Row(
               children: const [
                 Flexible(
                   child: Padding(
                     padding: EdgeInsets.all(20),
                     child: Text(
-                        "You have thought negatively of yourself and/or others around you.",
+                        "You have experienced being fidgety or restless, or the opposite - slow and sluggish.",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -700,83 +756,21 @@ class _SurveyPageState extends State<SurveyPage> {
               thickness: 0.5,
               color: Colors.blueGrey,
             ),
-
-            // Question 19
-            Row(
-              children: const [
-                Flexible(
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text("You have been feeling depressed or hopeless.",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Slider(
-              value: currentSliderValues[18],
-              max: MAX_AMOUNT,
-              divisions: MAX_DIVISIONS,
-              label: sliderLabels[currentSliderValues[18].toInt()],
-              inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
-              onChanged: (double value) {
-                setState(() {
-                  currentSliderValues[18] = value;
-                });
-              },
-            ),
-            const SizedBox(height: 10),
-            const Divider(
-              thickness: 0.5,
-              color: Colors.blueGrey,
-            ),
-
-            // Question 20 (1 Movement Q)
-            Row(
-              children: const [
-                Flexible(
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(
-                        "You have experienced being fidgety or restless, or the opposite - slow and sluggish.",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Slider(
-              value: currentSliderValues[19],
-              max: MAX_AMOUNT,
-              divisions: MAX_DIVISIONS,
-              label: sliderLabels[currentSliderValues[19].toInt()],
-              inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
-              onChanged: (double value) {
-                setState(() {
-                  currentSliderValues[19] = value;
-                });
-              },
-            ),
-            const SizedBox(height: 10),
-            const Divider(
-              thickness: 0.5,
-              color: Colors.blueGrey,
-            ),
             const SizedBox(height: 20),
 
             // continue button
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: MyButton(onTap: emptyFunction, message: "Continue Next"),
+              child: MyButton(
+                  onTap: () {
+                    sendUpdateRequest();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomePage()),
+                    );
+                  },
+                  message: "Continue Next"),
             ),
           ],
         ))));

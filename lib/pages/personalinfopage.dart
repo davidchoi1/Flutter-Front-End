@@ -1,17 +1,33 @@
-import 'package:circle_app/pages/surveypage.dart';
 import 'package:flutter/material.dart';
 import 'package:circle_app/components/dropdown.dart';
+import '../classes/userdata.dart';
 import '../components/button.dart';
 import '../components/textformfield.dart';
+import 'init_surveypage.dart';
 
 class PersonalInfoPage extends StatefulWidget {
-  const PersonalInfoPage({super.key});
+  final UserData userData;
+  const PersonalInfoPage({super.key, required this.userData});
 
   @override
   State<PersonalInfoPage> createState() => _PersonalInfoPageState();
 }
 
 class _PersonalInfoPageState extends State<PersonalInfoPage> {
+  // regular expression for phone number input validation
+  final RegExp phoneRegex = RegExp(r'^\d{10}$');
+
+  // phone number input validation function
+  String? validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a phone number';
+    }
+    if (!phoneRegex.hasMatch(value)) {
+      return 'Please enter a valid 10-digit phone number in example format';
+    }
+    return null;
+  }
+
   // controllers for textfields
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -23,7 +39,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   final countryController = TextEditingController();
 
   //string variables to hold civil status and gender
-  late String civilStatus, gender;
+  String? civilStatus, gender;
 
   //datetime variable
   DateTime _dateTime = DateTime.utc(1993, 10, 18);
@@ -31,11 +47,21 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   //formkey for input validation
   final _formkey = GlobalKey<FormState>();
 
+
   //navigate to next page
-  void _navigateToNext(BuildContext context) {
+  void _navigateToNext(BuildContext context, UserData userData) {
+    userData.number = numberController.text;
+    userData.name = '${firstNameController.text} ${lastNameController.text}';
+    userData.gender = gender;
+    userData.civilStatus = civilStatus;
+    userData.address =
+        '${streetController.text}, ${cityController.text}, ${stateController.text}, ${zipController.text}, ${stateController.text}';
+    userData.birthday = _dateTime;
+
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const SurveyPage()),
+      MaterialPageRoute(
+          builder: (context) => InitSurveyPage(userData: widget.userData)),
     );
   }
 
@@ -87,7 +113,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-
                 // personal information text
                 const SizedBox(height: 20),
                 const Text(
@@ -157,8 +182,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                           child: Text(
                             '${_dateTime.month}/${_dateTime.day}/${_dateTime.year} (Click to Change)',
                             style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16),
+                                color: Colors.black, fontSize: 16),
                           ),
                         )),
                   ),
@@ -187,7 +211,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   },
                   hintText: 'Choose Civil Status',
                   inputError: 'Please Pick Civil Status',
-                  
                 ),
                 const SizedBox(height: 50),
 
@@ -207,17 +230,17 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 ),
                 const SizedBox(height: 10),
                 DropdownButtonWidget<String>(
-                    items: const [
-                      'Male',
-                      'Female',
-                      'Other',
-                      'Prefer Not to Answer'
-                    ],
-                    onItemSelected: (value) {
-                      civilStatus = value;
-                    },
-                    hintText: 'Choose Gender',
-                    inputError: 'Please choose gender',
+                  items: const [
+                    'Male',
+                    'Female',
+                    'Other',
+                    'Prefer Not to Answer'
+                  ],
+                  onItemSelected: (value) {
+                    gender = value;
+                  },
+                  hintText: 'Choose Gender',
+                  inputError: 'Please choose gender',
                 ),
                 const SizedBox(height: 50),
 
@@ -236,11 +259,27 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                MyTextFormField(
-                  controller: numberController,
-                  hintText: "Ex: 2133449081",
-                  inputError: "Please enter phone number",
-                  obscureText: false,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: TextFormField(
+                    controller: numberController,
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color.fromARGB(255, 56, 52, 52)),
+                      ),
+                      fillColor: Colors.white,
+                      filled: true,
+                      hintText: "Ex: 2133449081",
+                      hintStyle:
+                          TextStyle(color: Color.fromRGBO(158, 158, 158, 1)),
+                    ),
+                    keyboardType: TextInputType.phone,
+                    validator: validatePhoneNumber,
+                  ),
                 ),
                 const SizedBox(height: 50),
 
@@ -305,9 +344,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   child: MyButton(
                       onTap: () {
                         if (_formkey.currentState!.validate()) {
-                          _navigateToNext(context);
-                        } else {
-                          
+                          _navigateToNext(context, widget.userData);
                         }
                       },
                       message: "Continue Next"),

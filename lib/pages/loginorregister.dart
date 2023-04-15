@@ -1,6 +1,5 @@
 import 'package:circle_app/pages/registerpage.dart';
 import 'package:flutter/material.dart';
-
 import 'loginpage.dart';
 
 class LoginOrRegisterPage extends StatefulWidget {
