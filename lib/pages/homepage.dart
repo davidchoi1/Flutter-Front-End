@@ -4,9 +4,14 @@ import 'package:circle_app/pages/contactspage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:circle_app/components/linechart.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import '../classes/contact.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String? userEmail;
+  const HomePage({super.key, this.userEmail = ''});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,7 +19,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  
+  List<Contact> contacts = List.empty(growable: true);
+  
   final data = [
     MyData(0, 5),
     MyData(1, 10),
@@ -35,9 +42,26 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<void> updateContacts(String? userEmail, List<Contact> contacts) async {
+  final response = await http.post(
+    Uri.parse('https://your-api-url/contacts/update'), // Replace with your API endpoint
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode({
+      'userEmail': userEmail,
+      'contacts': contacts.map((contact) => contact.toJson()).toList(),
+    }),
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to update contacts');
+  }
+}
 
   @override
   Widget build(BuildContext context) {
+    print('Email: ${widget.userEmail}');
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -153,11 +177,19 @@ class _HomePageState extends State<HomePage> {
               child: const Text('Options Menu')),
           ListTile(
               title: const Text('View/Update Contacts'),
-              onTap: () {
+              onTap: () async {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ContactsPage()),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ContactsPage(userEmail: widget.userEmail)),
                 );
+                try {
+                  await updateContacts(widget.userEmail, contacts);
+                  print('Contacts updated successfully');
+                } catch (e) {
+                  print('Error updating contacts: $e');
+                }
               }),
           ListTile(
               title: const Text('Take weekly survey'),
@@ -166,7 +198,10 @@ class _HomePageState extends State<HomePage> {
                   context,
                   MaterialPageRoute(builder: (context) => const SurveyPage()),
                 );
-              }),
+              }
+              // Send the update request when the user navigates back
+
+              ),
           ListTile(
               title: const Text('Signout'),
               onTap: () {

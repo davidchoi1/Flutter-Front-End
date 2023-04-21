@@ -30,7 +30,7 @@ class _SurveyPageState extends State<SurveyPage> {
 
   //calculation for parameter - average
   Map<String, dynamic> createMap() {
-    // key value pairing 
+    // key value pairing
     Map<String, dynamic> map = {};
 
     List<String> keys = [
@@ -72,16 +72,29 @@ class _SurveyPageState extends State<SurveyPage> {
 
   //update request
   Future<void> sendUpdateRequest() async {
-    final response = await http.patch(Uri.parse(''),                        // object created from patch request to given url (Uniformed Resource Identified object created from parsed url)
+    final response = await http.patch(
+        Uri.parse(
+            ''), // object created from patch request to given url (Uniformed Resource Identified object created from parsed url)
         headers: <String, String>{
-          'Content Type': 'application/json; mental health parameters'      // header for request
+          'Content Type':
+              'application/json; mental health parameters' // header for request
         },
-        body: jsonEncode(createMap()));                                     // sending json-encoded string of map to defined url
+        body: jsonEncode(
+            createMap())); // sending json-encoded string of map to defined url
     if (response.statusCode == 200) {
       // Update successful
     } else {
       // Update failed
     }
+  }
+
+  void _navigateToNext(BuildContext context, [String? optionalString]) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(userEmail: optionalString ?? ''),
+      ),
+    );
   }
 
   @override
@@ -764,13 +777,9 @@ class _SurveyPageState extends State<SurveyPage> {
               child: MyButton(
                   onTap: () {
                     sendUpdateRequest();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()),
-                    );
+                    _navigateToNext(context);
                   },
-                  message: "Continue Next"),
+                  message: "Back to Homepage"),
             ),
           ],
         ))));

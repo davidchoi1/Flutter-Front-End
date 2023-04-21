@@ -32,14 +32,10 @@ class _InitContactsPageState extends State<InitContactsPage> {
   final RegExp phoneRegex = RegExp(r'^\d{10}$');
 
   // navigate to next
-  _navigateToNext(context, UserData userData) {
-    userData.trustedContacts = contacts;
-
-    print(widget.userData.toJson());
-
+  _navigateToNext(context, UserData userData) {                                  
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => HomePage()),
+      MaterialPageRoute(builder: (context) => HomePage(userEmail: widget.userData.email)),
       (route) => false,
     );
   }
@@ -250,6 +246,7 @@ class _InitContactsPageState extends State<InitContactsPage> {
               child: MyButton(
                   onTap: () {
                     if (contacts.length >= 2) {
+                      widget.userData.trustedContacts = contacts;
                       sendUserData(widget.userData);
                       _navigateToNext(context, widget.userData);
                     } else {

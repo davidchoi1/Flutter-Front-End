@@ -269,7 +269,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                            BorderSide(color: Color.fromARGB(255, 56, 52, 52)),
+                            BorderSide(color: Color.fromARGB(255, 56, 52, 52)),                                                       
                       ),
                       fillColor: Colors.white,
                       filled: true,

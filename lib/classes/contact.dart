@@ -6,4 +6,6 @@ class Contact {
   Map<String, dynamic> toJson() {
     return {'name': name, 'number': number};
   }
+
+  static fromJson(contact) {}
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../classes/contact.dart';
 import '../components/textformfield.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ContactsPage extends StatefulWidget {
-  const ContactsPage({super.key});
+  final String? userEmail;
+  const ContactsPage({super.key, required this.userEmail});
 
   @override
   State<ContactsPage> createState() => _ContactsPageState();
@@ -48,7 +50,7 @@ class _ContactsPageState extends State<ContactsPage> {
               backgroundColor: index % 2 == 0 ? Colors.blueGrey : Colors.amber,
               foregroundColor: Colors.white,
               child: Text(
-                contacts[index].name[0],                                              
+                contacts[index].name[0],
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -57,7 +59,9 @@ class _ContactsPageState extends State<ContactsPage> {
               children: [
                 // contact name and number representation in created list tile
                 Text(contacts[index].name,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),                           // !! must insert information from json here !! 
+                    style: const TextStyle(
+                        fontWeight: FontWeight
+                            .bold)), // !! must insert information from json here !!
                 Text(contacts[index].number),
               ],
             ),
@@ -91,12 +95,43 @@ class _ContactsPageState extends State<ContactsPage> {
     );
   }
 
+  Future<List<Contact>> fetchContacts(String? username) async {
+  // Replace the URL with your API endpoint
+  final response = await http.get(Uri.parse('https://your-api-url/trustedContacts?username=$username'));
+
+  if (response.statusCode == 200) {
+    List<dynamic> jsonResponse = jsonDecode(response.body);
+    return jsonResponse.map<Contact>((contact) => Contact.fromJson(contact)).toList();
+  } else {
+    throw Exception('Failed to load contacts');
+  }
+}
+
+  @override
+  void initState() {
+    super.initState();
+    _loadContacts();
+  }
+
+  Future<void> _loadContacts() async {
+    try {
+      // Replace 'yourUsername' with the actual username
+      List<Contact> fetchedContacts = await fetchContacts(widget.userEmail);
+      setState(() {
+        contacts = fetchedContacts;
+      });
+    } catch (e) {
+      print('Error fetching contacts: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formkey,
       child: Scaffold(
-          appBar: AppBar(                                                                     // appbar
+          appBar: AppBar(
+            // appbar
             title: const Text("Trusted Contacts"),
             backgroundColor: Colors.black,
           ),
@@ -104,16 +139,15 @@ class _ContactsPageState extends State<ContactsPage> {
           body: Column(
             children: [
               const SizedBox(height: 20),
-              
-              MyTextFormField(                                                                // name textfield
-                controller: nameController, 
-                hintText: 'Contact Name', 
-                inputError: 'Please include name', 
-                obscureText: false
-                ),
+              MyTextFormField(
+                  // name textfield
+                  controller: nameController,
+                  hintText: 'Contact Name',
+                  inputError: 'Please include name',
+                  obscureText: false),
               const SizedBox(height: 20),
-              
-              Padding(                                                                        // number textfield
+              Padding(
+                // number textfield
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextFormField(
                   controller: numberController,
@@ -128,18 +162,19 @@ class _ContactsPageState extends State<ContactsPage> {
                     fillColor: Colors.white,
                     filled: true,
                     hintText: "Ex: 2133449081",
-                    hintStyle: TextStyle(color: Color.fromRGBO(158, 158, 158, 1)),
+                    hintStyle:
+                        TextStyle(color: Color.fromRGBO(158, 158, 158, 1)),
                   ),
                   keyboardType: TextInputType.phone,
                   validator: validatePhoneNumber,
                 ),
               ),
               const SizedBox(height: 20),
-              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(                                                         // add button
+                  ElevatedButton(
+                    // add button
                     onPressed: () {
                       String name = nameController.text.trim();
                       String number = numberController.text.trim();
@@ -161,19 +196,20 @@ class _ContactsPageState extends State<ContactsPage> {
                     ),
                     child: const Text('Add'),
                   ),
-                  ElevatedButton(                                                         // update button
+                  ElevatedButton(
+                      // update button
                       onPressed: () {
                         String name = nameController.text.trim();
                         String number = numberController.text.trim();
                         if (_formkey.currentState!.validate()) {
-                            setState(() {
-                              nameController.text = '';
-                              numberController.text = '';
-                              contacts[selectedIndex].name = name;
-                              contacts[selectedIndex].number = number;
-                              selectedIndex = -1;
-                            });
-                          }
+                          setState(() {
+                            nameController.text = '';
+                            numberController.text = '';
+                            contacts[selectedIndex].name = name;
+                            contacts[selectedIndex].number = number;
+                            selectedIndex = -1;
+                          });
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black, // Background color
