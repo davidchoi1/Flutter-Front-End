@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../classes/contact.dart';
 import '../components/surveychart.dart';
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   List<Contact> contacts = List.empty(growable: true);
   
 
-
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   // sign user out function
   void _handleSignOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
@@ -50,6 +51,38 @@ class _HomePageState extends State<HomePage> {
     throw Exception('Failed to update contacts');
   }
 }
+
+
+  @override
+  void initState() {
+    super.initState();
+    var initializationSettingsAndroid =
+    AndroidInitializationSettings('app_icon');
+
+    Future<void> _scheduleWeeklyNotification() async {
+      var scheduledNotificationDateTime = DateTime.now().add(Duration(days: 7));
+      var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+          'weeklySurveyReminderChannel', 'Weekly Survey Reminder',
+          importance: Importance.high, priority: Priority.high);
+      var platformChannelSpecifics = NotificationDetails(
+          android: androidPlatformChannelSpecifics);
+      await flutterLocalNotificationsPlugin.schedule(
+          0,
+          'Weekly Survey Reminder',
+          'Don\'t forget to complete your weekly survey!',
+          scheduledNotificationDateTime,
+          platformChannelSpecifics);
+      await Future.delayed(Duration(days: 7)); // wait for 7 seconds
+      _scheduleWeeklyNotification(); // schedule the next notification
+    }
+
+    var initializationSettings =
+    InitializationSettings(android: initializationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    _scheduleWeeklyNotification();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
