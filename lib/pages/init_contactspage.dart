@@ -189,7 +189,7 @@ class _InitContactsPageState extends State<InitContactsPage> {
                       setState(() {
                         nameController.text = '';
                         numberController.text = '';
-                        contacts.add(Contact(name: name, number: number));
+                        contacts.add(Contact(name: name, number: number));            // contact added here
                       });
                     }
                   },
@@ -239,15 +239,15 @@ class _InitContactsPageState extends State<InitContactsPage> {
                     child: ListView.builder(
                         itemCount: contacts.length, // item count
                         itemBuilder: (context, index) => getRow(
-                            index)), // for each titem, builds with context and takes in the index
+                            index)), // for each item, builds with context and takes in the index
                   ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: MyButton(
                   onTap: () {
                     if (contacts.length >= 2) {
-                      widget.userData.trustedContacts = contacts;
-                      sendUserData(widget.userData);
+                      widget.userData.trustedContacts = contacts;                                   // assign newly added contacts to userData object's contact list
+                      sendUserData(widget.userData);                                                // send to backend
                       _navigateToNext(context, widget.userData);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

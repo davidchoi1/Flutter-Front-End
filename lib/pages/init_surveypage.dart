@@ -1,8 +1,10 @@
+import 'package:circle_app/classes/surveydata.dart';
 import 'package:circle_app/pages/homepage.dart';
 import 'package:circle_app/pages/init_contactspage.dart';
 import 'package:flutter/material.dart';
 import '../classes/userdata.dart';
 import '../components/button.dart';
+import 'package:intl/intl.dart'; // Import the intl library
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -44,7 +46,7 @@ class _InitSurveyPageState extends State<InitSurveyPage> {
       'Social',
       'Focus',
       'Irritability',
-      'Obsession/Addiction',
+      'ObsessionAddiction',
       'Suicidality',
       'Movement'
     ];
@@ -76,7 +78,11 @@ class _InitSurveyPageState extends State<InitSurveyPage> {
 
   //navigate to next page
   void _navigateToNext(BuildContext context, UserData userData) {
-    userData.surveyData = createMap();
+    userData.surveyData = SurveyData(
+        createdAt: DateTime.now(),
+        surveyMap: createMap(),
+        userEmail: userData.email); // populate surveydata object with fields
+    
 
     Navigator.push(
       context,

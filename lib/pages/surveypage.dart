@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import '../components/button.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:circle_app/classes/surveydata.dart';
 
 class SurveyPage extends StatefulWidget {
-  const SurveyPage({super.key});
+  final String? userEmail;
+  const SurveyPage({super.key, required this.userEmail});
 
   @override
   State<SurveyPage> createState() => _SurveyPageState();
@@ -71,23 +73,28 @@ class _SurveyPageState extends State<SurveyPage> {
   }
 
   //update request
-  Future<void> sendUpdateRequest() async {
-    final response = await http.patch(
-        Uri.parse(
-            ''), // object created from patch request to given url (Uniformed Resource Identified object created from parsed url)
-        headers: <String, String>{
-          'Content Type':
-              'application/json; mental health parameters' // header for request
-        },
-        body: jsonEncode(
-            createMap())); // sending json-encoded string of map to defined url
-    if (response.statusCode == 200) {
-      // Update successful
-    } else {
-      // Update failed
-    }
-  }
+Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
+  String apiUrl = "https://your-backend-api-url.com"; // Replace with your backend API URL
+  Map<String, dynamic> surveyDataJson = surveyData.toJson();
 
+  final response = await http.post(
+    Uri.parse(apiUrl),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: jsonEncode(surveyDataJson),
+  );
+
+  if (response.statusCode == 200) {
+    // The data was sent successfully
+    print("Data sent successfully.");
+  } else {
+    // Error handling
+    print("Error sending data: ${response.statusCode}");
+  }
+}
+
+  // navigate to next page
   void _navigateToNext(BuildContext context, [String? optionalString]) {
     Navigator.push(
       context,
@@ -776,7 +783,12 @@ class _SurveyPageState extends State<SurveyPage> {
               padding: const EdgeInsets.all(16.0),
               child: MyButton(
                   onTap: () {
-                    sendUpdateRequest();
+                    SurveyData surveyData = SurveyData(
+                        createdAt: DateTime.now(),
+                        surveyMap:
+                            createMap(),
+                        userEmail: widget.userEmail); // populate surveydata object with fields
+                    sendDataToBackend(surveyData, widget.userEmail);
                     _navigateToNext(context);
                   },
                   message: "Back to Homepage"),

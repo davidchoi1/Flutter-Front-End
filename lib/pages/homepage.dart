@@ -2,12 +2,12 @@ import 'package:circle_app/pages/authpage.dart';
 import 'package:circle_app/pages/surveypage.dart';
 import 'package:circle_app/pages/contactspage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:circle_app/components/linechart.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../classes/contact.dart';
+import '../components/surveychart.dart';
 
 class HomePage extends StatefulWidget {
   final String? userEmail;
@@ -22,15 +22,7 @@ class _HomePageState extends State<HomePage> {
   
   List<Contact> contacts = List.empty(growable: true);
   
-  final data = [
-    MyData(0, 5),
-    MyData(1, 10),
-    MyData(2, 8),
-    MyData(14, 3),
-    MyData(7, 16),
-    MyData(4, 3),
-    MyData(11, 9),
-  ];
+
 
   // sign user out function
   void _handleSignOut(BuildContext context) async {
@@ -61,6 +53,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     print('Email: ${widget.userEmail}');
     return Scaffold(
         key: _scaffoldKey,
@@ -146,28 +139,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     )),
-                Card(
-                    // linechart
-                    color: Color.fromARGB(90, 121, 146, 158),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                    margin: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(16),
-                          child: const Text('Mental Health Historical Data',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20)),
-                        ),
-                        Container(
-                            height: 300,
-                            child: MyLineChart(data, animate: true)),
-                      ],
-                    )),
+                  widget.userEmail != null ? SurveyChart(userEmail: widget.userEmail!) : Container()                      // render survey chart
               ],
-            ),
+            ),        
           ),
         ),
         drawer: Drawer(
@@ -196,7 +170,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SurveyPage()),
+                  MaterialPageRoute(builder: (context) => SurveyPage(userEmail: widget.userEmail)),
                 );
               }
               // Send the update request when the user navigates back
