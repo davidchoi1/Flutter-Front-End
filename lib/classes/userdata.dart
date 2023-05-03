@@ -1,3 +1,5 @@
+import 'package:circle_app/classes/surveydata.dart';
+
 import 'contact.dart';
 
 class UserData {
@@ -10,7 +12,7 @@ class UserData {
   String? civilStatus;
   DateTime? birthday;
   List<Contact>? trustedContacts;
-  Map<String, dynamic>? surveyData;
+  SurveyData? surveyData;
 
   UserData({
     this.email,
