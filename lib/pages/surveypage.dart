@@ -785,8 +785,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
                   onTap: () {
                     SurveyData surveyData = SurveyData(
                         createdAt: DateTime.now(),
-                        surveyMap:
-                            createMap(),
+                        surveyMap: createMap(),
                         userEmail: widget.userEmail); // populate surveydata object with fields
                     sendDataToBackend(surveyData, widget.userEmail);
                     _navigateToNext(context);
