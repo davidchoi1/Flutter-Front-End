@@ -10,6 +10,7 @@ import 'dart:math';
 import '../classes/contact.dart';
 import '../classes/surveydata.dart';
 import '../components/surveychart.dart';
+import 'package:health/health.dart';
 
 class HomePage extends StatefulWidget {
   final String? userEmail;
@@ -18,6 +19,10 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
+//creating a healthFactory for use in the app
+HealthFactory health = HealthFactory();
+
+
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -83,6 +88,33 @@ class _HomePageState extends State<HomePage> {
     _scheduleWeeklyNotification();
     generateRandomSurveyData();
   }
+Future<List<HealthDataPoint>> getHealthData() async{
+  List<HealthDataPoint> healthData = [];
+  var types =  [
+    HealthDataType.STEPS,
+    HealthDataType.HEART_RATE
+  ];
+
+  bool granted = await health.requestAuthorization(types);
+
+  if (granted) {
+    DateTime startDate = DateTime.now().subtract(Duration(days: 7));
+    DateTime endDate = DateTime.now();
+
+    try {
+      healthData = await health.getHealthDataFromTypes(startDate, endDate, types);
+    } catch (e) {
+      print('Error fetching health data: $e');
+    }
+  } else {
+    print('Authorization not granted');
+  }
+  for (var data in healthData) {
+    print('Type: ${data.typeString} | Value: ${data.value} | Unit: ${data.unitString} | Date: ${data.dateFrom}');
+  }
+
+  return healthData;
+}
 
   // generate and send random data
   Future<void> generateRandomSurveyData() async {
@@ -150,7 +182,11 @@ class _HomePageState extends State<HomePage> {
       print("Error sending survey data: ${response.statusCode}");
     }
   }
-
+  void printHealthData(List<HealthDataPoint> healthData) {
+    for (var data in healthData) {
+      print('Type: ${data.typeString} | Value: ${data.value} | Unit: ${data.unitString} | Date: ${data.dateFrom}');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -186,6 +222,13 @@ class _HomePageState extends State<HomePage> {
                       ],
                     )),
                 // widget display for steps
+                ElevatedButton(
+                  child: Text('Fetch Health Data'),
+                  onPressed: () async {
+                    List<HealthDataPoint> healthData = await getHealthData();
+                    printHealthData(healthData);
+                  },
+                ),
                 Card(
                     color: Color.fromARGB(90, 121, 146, 158),
                     shape: RoundedRectangleBorder(
