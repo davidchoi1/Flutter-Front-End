@@ -81,47 +81,47 @@ class _SurveyChartState extends State<SurveyChart> {
 
   // In the build method, modify LineChartData to show custom X-axis labels
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      child: LineChart(
-        LineChartData(
-          gridData: FlGridData(show: false),
-          titlesData: FlTitlesData(
-            show: true,
-            bottomTitles: SideTitles(
-              showTitles: true,
-              getTextStyles: (BuildContext context, double value) => const TextStyle(color: Colors.black, fontSize: 12),
-              getTitles: (value) {
-                int index = createdAtDates.indexWhere((date) =>
-                    date.difference(createdAtDates.first).inDays ==
-                    value.toInt());
-                if (index != -1) {
-                  return DateFormat('MM/dd/yyyy').format(createdAtDates[index]);
-                }
-                return '';
-              },
-            ),
-            leftTitles: SideTitles(showTitles: true),
-          ),
-          borderData: FlBorderData(show: false),
-          minX: 0,
-          maxX: (createdAtDates.last.difference(createdAtDates.first).inDays)
-              .toDouble(),
-          minY: 0,
-          maxY: 10, // Change the range based on your data values
-          lineBarsData: [
-            LineChartBarData(
-              spots: chartData,
-              isCurved: true,
-              colors: [Colors.blue],
-              barWidth: 2,
-              isStrokeCapRound: true,
-              dotData: FlDotData(show: false),
-              belowBarData: BarAreaData(show: false),
-            ),
-          ],
-        ),
-      ),
-    );
+     return Container();
+    //   height: 300,
+    //   child: LineChart(
+    //     LineChartData(
+    //       gridData: FlGridData(show: false),
+    //       titlesData: FlTitlesData(
+    //         show: true,
+    //         bottomTitles: SideTitles(
+    //           showTitles: true,
+    //           getTextStyles: (BuildContext context, double value) => const TextStyle(color: Colors.black, fontSize: 12),
+    //           getTitles: (value) {
+    //             int index = createdAtDates.indexWhere((date) =>
+    //                 date.difference(createdAtDates.first).inDays ==
+    //                 value.toInt());
+    //             if (index != -1) {
+    //               return DateFormat('MM/dd/yyyy').format(createdAtDates[index]);
+    //             }
+    //             return '';
+    //           },
+    //         ),
+    //         leftTitles: SideTitles(showTitles: true),
+    //       ),
+    //       borderData: FlBorderData(show: false),
+    //       minX: 0,
+    //       maxX: (createdAtDates.last.difference(createdAtDates.first).inDays)
+    //           .toDouble(),
+    //       minY: 0,
+    //       maxY: 10, // Change the range based on your data values
+    //       lineBarsData: [
+    //         LineChartBarData(
+    //           spots: chartData,
+    //           isCurved: true,
+    //           color: Colors.blue,
+    //           barWidth: 2,
+    //           isStrokeCapRound: true,
+    //           dotData: FlDotData(show: false),
+    //           belowBarData: BarAreaData(show: false),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

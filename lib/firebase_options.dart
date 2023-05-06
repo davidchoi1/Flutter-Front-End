@@ -44,7 +44,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAOrYaY8VB-rc661Lo3x0aa3YdxBenaulQ',
+    apiKey: 'AIzaSyBlE7BoKr-ikq-dM8qsB2ANbc2oxOJ4ApQ',
     appId: '1:725782901931:web:9e16ea3715e516f15073ee',
     messagingSenderId: '725782901931',
     projectId: 'circleauth-40820',
@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyACXG3aqjl2YHD2EKBRrGfXs6xzULRyQSU',
+    apiKey: 'AIzaSyBlE7BoKr-ikq-dM8qsB2ANbc2oxOJ4ApQ',
     appId: '1:725782901931:android:669a034321fe122d5073ee',
     messagingSenderId: '725782901931',
     projectId: 'circleauth-40820',
@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD4_l_G6d7RJdwMB1swypDQ9UtGHsX6LCI',
+    apiKey: 'AIzaSyBlE7BoKr-ikq-dM8qsB2ANbc2oxOJ4ApQ',
     appId: '1:725782901931:ios:63fb383a8086192b5073ee',
     messagingSenderId: '725782901931',
     projectId: 'circleauth-40820',
@@ -75,7 +75,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyD4_l_G6d7RJdwMB1swypDQ9UtGHsX6LCI',
+    apiKey: 'AIzaSyBlE7BoKr-ikq-dM8qsB2ANbc2oxOJ4ApQ',
     appId: '1:725782901931:ios:63fb383a8086192b5073ee',
     messagingSenderId: '725782901931',
     projectId: 'circleauth-40820',

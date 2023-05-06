@@ -30,18 +30,18 @@ class _LoginPageState extends State<LoginPage> {
     );
     // user sign in error function
     void showErrorMessage(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.deepOrange,
-          title: Center(
-            child: Text(message, style: const TextStyle(color: Colors.white)),
-          ),
-        );
-      },
-    );
-  }
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.deepOrange,
+            title: Center(
+              child: Text(message, style: const TextStyle(color: Colors.white)),
+            ),
+          );
+        },
+      );
+    }
 
     // try sign in
     try {
@@ -55,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pop(context);
       // show error message (wrong email/pass)
       showErrorMessage(e.code);
+
     }
   }
 
@@ -85,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Text("MyCircle",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 60, color: Colors.black,)),
+                            fontWeight: FontWeight.bold, fontSize: 60, color: Colors.black,)),
                     ],
                   ),
                   const SizedBox(height: 50),
