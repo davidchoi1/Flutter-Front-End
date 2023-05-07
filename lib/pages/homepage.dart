@@ -26,6 +26,7 @@ HealthFactory health = HealthFactory();
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  double weeklyHeartRateAverage = 0;
 
   List<Contact> contacts = List.empty(growable: true);
 
@@ -94,8 +95,10 @@ Future<List<HealthDataPoint>> getHealthData() async{
     HealthDataType.STEPS,
     HealthDataType.HEART_RATE
   ];
+  double totalSteps = 0;
 
   bool granted = await health.requestAuthorization(types);
+  print(granted);
 
   if (granted) {
     DateTime startDate = DateTime.now().subtract(Duration(days: 7));
@@ -110,9 +113,41 @@ Future<List<HealthDataPoint>> getHealthData() async{
     print('Authorization not granted');
   }
   for (var data in healthData) {
-    print('Type: ${data.typeString} | Value: ${data.value} | Unit: ${data.unitString} | Date: ${data.dateFrom}');
+    print(
+        'Type: ${data.typeString} | Value: ${data.value} | Unit: ${data.unitString} | Date: ${data.dateFrom}');
+
+    // if (data.type == HealthDataType.STEPS) {
+    //   totalSteps += HealthDataType.STEPS as double;
+    // }
+  }
+  double StepCountSum = 0;
+  int StepCount = 0;
+  List<double> StepCountWeek = [];
+  for (var data in healthData) {
+    if (data.type == HealthDataType.STEPS) {
+      StepCountSum += HealthDataType.STEPS as double;
+      StepCount++;
+      StepCountWeek.add(HealthDataType.STEPS as double);
+    }
+  }
+  print(totalSteps);
+  double heartRateSum = 0;
+  int heartRateCount = 0;
+  List<double> heartRates = [];
+
+  for (var data in healthData) {
+    if (data.type == HealthDataType.HEART_RATE) {
+      heartRateSum += HealthDataType.HEART_RATE as double;
+      heartRateCount++;
+      heartRates.add(HealthDataType.HEART_RATE as double);
+    }
   }
 
+  if (heartRateCount > 0) {
+    weeklyHeartRateAverage = heartRateSum / heartRateCount;
+  }
+  //print(weeklyHeartRateAverage);
+  printHealthData(healthData);
   return healthData;
 }
 
@@ -247,21 +282,27 @@ Future<List<HealthDataPoint>> getHealthData() async{
                     )),
                 // widget display for heart rate
                 Card(
-                    color: const Color.fromARGB(90, 121, 146, 158),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                    margin: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(16),
-                          child: const Text('Weekly Average Heartrate: 69',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                  color: const Color.fromARGB(90, 121, 146, 158),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  margin: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          'Weekly Average Heartrate: ${weeklyHeartRateAverage.toStringAsFixed(0)}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
-                      ],
-                    )),
+                      ),
+                    ],
+                  ),
+                ),
+
                 // widget display for weekly sentiment
                 Card(
                     color: Color.fromARGB(90, 121, 146, 158),
