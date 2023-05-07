@@ -178,10 +178,12 @@ Future<List<HealthDataPoint>> getHealthData() async{
 
   if (heartRateCount > 0) {
     weeklyHeartRateAverage = heartRateSum / heartRateCount;
+    
   }
+
   setState(() {
     totalSteps = newTotalSteps;
-    weeklyHeartRateAverage = weeklyHeartRateAverage;
+    weeklyHeartRateAverage = double.parse(weeklyHeartRateAverage.toStringAsFixed(2));
   });
   //print(weeklyHeartRateAverage);
  //printHealthData(healthData);
