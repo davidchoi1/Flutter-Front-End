@@ -28,7 +28,7 @@ HealthFactory health = HealthFactory();
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   double weeklyHeartRateAverage = 0;
-  double totalSteps = 0;
+  int totalSteps = 0;
 
   List<Contact> contacts = List.empty(growable: true);
 
@@ -100,20 +100,6 @@ var initializationSettingsAndroid =
       HealthDataType.HEART_RATE,
     ];
 
-    // Request permission from the user
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.activityRecognition,
-      Permission.locationWhenInUse // or Permission.locationAlways
-    ].request();
-
-    // Check if the user granted permission
-    if (statuses[Permission.activityRecognition] != PermissionStatus.granted ||
-        statuses[Permission.locationWhenInUse] != PermissionStatus.granted) {
-      // Show a message to the user that they need to grant permission
-      return;
-    }
-
-    // Request authorization from the HealthKit or Google Fit APIs
     bool authorized = await health.requestAuthorization(types);
 
     if (!authorized) {
@@ -122,42 +108,85 @@ var initializationSettingsAndroid =
     }
   }
 
+Future<List<HealthDataPoint>> getHealthData() async{
+  List<HealthDataPoint> healthData = [];
+  var types =  [
+    HealthDataType.STEPS,
+    HealthDataType.HEART_RATE
+  ];
 
-  Future<List<HealthDataPoint>> getHealthData() async {
-    List<HealthDataPoint> healthData = [];
-    var types = [    HealthDataType.STEPS,    HealthDataType.HEART_RATE,  ];
+  bool granted = await health.requestAuthorization(types);
+  print(granted);
 
-    bool granted = await health.requestAuthorization(types);
-    print(granted);
+  if (granted) {
+    DateTime startDate = DateTime.now().subtract(Duration(days: 7));
+    DateTime endDate = DateTime.now();
 
-    if (granted) {
-      DateTime startDate = DateTime.now().subtract(Duration(days: 7));
-      DateTime endDate = DateTime.now();
-
-      try {
-        healthData = await health.getHealthDataFromTypes(startDate, endDate, types);
-      } catch (e) {
-        print('Error fetching health data: $e');
-      }
-    } else {
-      print('Authorization not granted');
+    try {
+      healthData = await health.getHealthDataFromTypes(startDate, endDate, types);
+    } catch (e) {
+      print('Error fetching health data: $e');
     }
+  } else {
+    print('Authorization not granted');
+  }
+  // for (var data in healthData) {
+  //   print(
+  //       'Type: ${data.typeString} | Value: ${data.value} | Unit: ${data.unitString} | Date: ${data.dateFrom}');
+  //
+  //   // if (data.type == HealthDataType.STEPS) {
+  //   //   totalSteps += HealthDataType.STEPS as double;
+  //   // }
+  // }
+  for (var data in healthData) {
+    //print(data.toJson());
 
-    double newTotalSteps = 0;
-    for (var data in healthData) {
-      if (data.type == HealthDataType.STEPS) {
-        newTotalSteps += int.parse(data.value.toString());
-      }
+    if (data.type == HealthDataType.STEPS) {
+      totalSteps += int.parse(data.value.toString());
     }
+  }
+  print('Total Steps: $totalSteps');
 
-    setState(() {
-      totalSteps = newTotalSteps;
-    });
+  // double StepCountSum = 0;
+  // int StepCount = 0;
+  // List<double> StepCountWeek = [];
+  // for (var data in healthData) {
+  //   if (data.type == HealthDataType.STEPS) {
+  //     StepCountSum += HealthDataType.STEPS as double;
+  //     StepCount++;
+  //     StepCountWeek.add(HealthDataType.STEPS as double);
+  //   }
+  // }
+  // print(totalSteps);
+  double heartRateSum = 0;
+  int heartRateCount = 0;
+  List<double> heartRates = [];
 
-    print('Total Steps: $totalSteps');
-    return healthData;
+  for (var data in healthData) {
+    if (data.type == HealthDataType.HEART_RATE) {
+      heartRateSum += HealthDataType.HEART_RATE as double;
+      heartRateCount++;
+      heartRates.add(HealthDataType.HEART_RATE as double);
+    }
+  }
+  int newTotalSteps = 0;
+  for (var data in healthData) {
+    if (data.type == HealthDataType.STEPS) {
+      newTotalSteps += int.parse(data.value.toString());
+    }
   }
 
+  if (heartRateCount > 0) {
+    weeklyHeartRateAverage = heartRateSum / heartRateCount;
+  }
+  setState(() {
+    totalSteps = newTotalSteps;
+    weeklyHeartRateAverage = weeklyHeartRateAverage;
+  });
+  //print(weeklyHeartRateAverage);
+ //printHealthData(healthData);
+  return healthData;
+}
 
 
   // generate and send random data
@@ -300,7 +329,7 @@ var initializationSettingsAndroid =
                       Container(
                         padding: const EdgeInsets.all(16),
                         child: Text(
-                          'Weekly Average Heartrate: ${weeklyHeartRateAverage.toStringAsFixed(0)}',
+                          'Weekly Average Heartrate: $weeklyHeartRateAverage',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
