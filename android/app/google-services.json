@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "725782901931-tuesghbko1kr6qdudmp689mr60mrbj8g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.circle_app",
+            "certificate_hash": "b5eb4f75b2601a526de6757e36ecc800443191aa"
+          }
+        },
+        {
           "client_id": "725782901931-1i7vikl1n671l871loe354to4v2uon2c.apps.googleusercontent.com",
           "client_type": 3
         }
