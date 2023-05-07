@@ -164,9 +164,9 @@ Future<List<HealthDataPoint>> getHealthData() async{
 
   for (var data in healthData) {
     if (data.type == HealthDataType.HEART_RATE) {
-      heartRateSum += HealthDataType.HEART_RATE as double;
+      heartRateSum += double.parse(data.value.toString());
       heartRateCount++;
-      heartRates.add(HealthDataType.HEART_RATE as double);
+      heartRates.add(double.parse(data.value.toString()));
     }
   }
   int newTotalSteps = 0;
