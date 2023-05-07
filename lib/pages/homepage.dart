@@ -13,6 +13,9 @@ import '../components/surveychart.dart';
 import 'package:health/health.dart';
 import 'dart:convert';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:device_apps/device_apps.dart';
+
+
 class HomePage extends StatefulWidget {
   final String? userEmail;
   const HomePage({super.key, this.userEmail = ''});
@@ -100,6 +103,20 @@ var initializationSettingsAndroid =
       HealthDataType.HEART_RATE,
     ];
 
+    // Request permission from the user
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.activityRecognition,
+      Permission.locationWhenInUse // or Permission.locationAlways
+    ].request();
+
+    // Check if the user granted permission
+    if (statuses[Permission.activityRecognition] != PermissionStatus.granted ||
+        statuses[Permission.locationWhenInUse] != PermissionStatus.granted) {
+      // Show a message to the user that they need to grant permission
+      return;
+    }
+
+    // Request authorization from the HealthKit or Google Fit APIs
     bool authorized = await health.requestAuthorization(types);
 
     if (!authorized) {
@@ -107,6 +124,7 @@ var initializationSettingsAndroid =
       return;
     }
   }
+
 
 Future<List<HealthDataPoint>> getHealthData() async{
   List<HealthDataPoint> healthData = [];
