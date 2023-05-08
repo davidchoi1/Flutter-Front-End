@@ -13,8 +13,6 @@ import '../components/surveychart.dart';
 import 'package:health/health.dart';
 import 'dart:convert';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:device_apps/device_apps.dart';
-
 
 class HomePage extends StatefulWidget {
   final String? userEmail;
@@ -69,14 +67,17 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 requestHealthAuthorization().then((value) => getHealthData()) ;
-var initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
+// var initializationSettingsAndroid =
+//         AndroidInitializationSettings('app_icon');
 
     Future<void> _scheduleWeeklyNotification() async {
       var scheduledNotificationDateTime = DateTime.now().add(Duration(days: 7));
-      var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
           'weeklySurveyReminderChannel', 'Weekly Survey Reminder',
-          importance: Importance.high, priority: Priority.high);
+          importance: Importance.high,
+          priority: Priority.high
+      );
       var platformChannelSpecifics =
           NotificationDetails(android: androidPlatformChannelSpecifics);
       await flutterLocalNotificationsPlugin.schedule(
@@ -283,6 +284,7 @@ Future<List<HealthDataPoint>> getHealthData() async{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     // backgroundColor: Colors.indigo.shade900,
         key: _scaffoldKey,
         appBar: AppBar(
             title: const Text("Home Page"),
@@ -299,7 +301,7 @@ Future<List<HealthDataPoint>> getHealthData() async{
               children: [
                 // widget display for steps
                 Card(
-                    color: Color.fromARGB(90, 121, 146, 158),
+                    color: Colors.black12,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16)),
                     margin: const EdgeInsets.all(16),
@@ -310,13 +312,16 @@ Future<List<HealthDataPoint>> getHealthData() async{
                           padding: const EdgeInsets.all(16),
                           child: const Text('Weekly Screentime: 15 hours',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                                  fontSize: 21,
+                                  color: Colors.white
+                              )
+                          ),
                         ),
                       ],
                     )),
 
                 Card(
-                  color: Color.fromARGB(90, 121, 146, 158),
+                  color: Colors.black12,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16)
                   ),
@@ -328,10 +333,10 @@ Future<List<HealthDataPoint>> getHealthData() async{
                         padding: const EdgeInsets.all(16),
                         child: Text(
                           'Steps This Week: $totalSteps',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20
-                          ),
+                            style: TextStyle(
+                                fontSize: 21,
+                                color: Colors.white
+                            )
                         ),
                       ),
                     ],
@@ -339,7 +344,7 @@ Future<List<HealthDataPoint>> getHealthData() async{
                 ),
                 // widget display for heart rate
                 Card(
-                  color: const Color.fromARGB(90, 121, 146, 158),
+                  color: Colors.black12,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16)),
                   margin: const EdgeInsets.all(16),
@@ -350,10 +355,10 @@ Future<List<HealthDataPoint>> getHealthData() async{
                         padding: const EdgeInsets.all(16),
                         child: Text(
                           'Weekly Average Heartrate: $weeklyHeartRateAverage',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+                            style: TextStyle(
+                                fontSize: 21,
+                                color: Colors.white
+                            )
                         ),
                       ),
                     ],
@@ -362,7 +367,7 @@ Future<List<HealthDataPoint>> getHealthData() async{
 
                 // widget display for weekly sentiment
                 Card(
-                    color: Color.fromARGB(90, 121, 146, 158),
+                    color: Colors.black12,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16)),
                     margin: const EdgeInsets.all(16),
@@ -374,12 +379,16 @@ Future<List<HealthDataPoint>> getHealthData() async{
                           child: const Text(
                               'Weekly Sentiment: You have been sad this week. {Suggestion}',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20)),
+                                  fontSize: 21,
+                                  color: Colors.white
+                              )
+                          ),
                         ),
                       ],
                     )),
                 // widget display for surveychart
                 Card(
+
                   margin: const EdgeInsets.all(16),
                   child: Column(
                     children: [
