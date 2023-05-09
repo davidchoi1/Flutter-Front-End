@@ -195,6 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
+
                           onPressed: () {
                             // show forgot username/password dialog box
                             showDialog(
