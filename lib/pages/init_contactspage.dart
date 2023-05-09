@@ -139,7 +139,7 @@ class _InitContactsPageState extends State<InitContactsPage> {
         appBar: AppBar(
           // appbar
           title: const Text("Trusted Contacts"),
-          backgroundColor: Colors.black,
+          backgroundColor: Color(0x000e95).withOpacity(0.5),
         ),
         backgroundColor: Colors.grey[300],
         body: Column(

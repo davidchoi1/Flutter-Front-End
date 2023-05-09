@@ -106,7 +106,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: const Text("Personal Information"),
-          backgroundColor: Colors.black,
+          backgroundColor: Color(0x000e95).withOpacity(0.5),
         ),
         backgroundColor: Colors.grey[300],
         body: SafeArea(

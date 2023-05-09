@@ -91,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Registration Page"),
-          backgroundColor: Colors.black,
+          backgroundColor: Color(0x000e95).withOpacity(0.5),
         ),
         backgroundColor: Colors.grey[300],
         body: SafeArea(

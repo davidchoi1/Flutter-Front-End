@@ -288,127 +288,167 @@ Future<List<HealthDataPoint>> getHealthData() async{
         key: _scaffoldKey,
         appBar: AppBar(
             title: const Text("Home Page"),
-            backgroundColor: Colors.black,
+            backgroundColor: Color(0x000e95).withOpacity(0.5),
             leading: IconButton(
               icon: const Icon(Icons.menu),
               onPressed: () {
                 _scaffoldKey.currentState!.openDrawer();
               },
             )),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
+        body: Column(
               children: [
+                Flexible(child:
+                    ListView(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 10, top: 25),
+                          height: 100,
+                          padding: EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFf363f93),
+                              borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(50.0),
+                              ),
+                              boxShadow: [
+                                new BoxShadow(
+                                  color: Color(0xFF363f93).withOpacity(0.5),
+                                  offset: new Offset(-10.0, 0.0),
+                                  blurRadius: 20.0,
+                                  spreadRadius: 4.0),
+                              ],
+                            ),
+                            padding: const EdgeInsets.only(
+                              left: 22,
+                              top: 20.0,
+                              bottom: 20,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+
+                                Text(
+                                  'Weekly Screentime: 15 hours',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 10, top: 0),
+                          height: 100,
+                          padding: EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFf363f93),
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(50.0),
+                              ),
+                              boxShadow: [
+                                new BoxShadow(
+                                    color: Color(0xFF363f93).withOpacity(0.5),
+                                    offset: new Offset(-10.0, 0.0),
+                                    blurRadius: 10.0,
+                                    spreadRadius: 4.0),
+                              ],
+                            ),
+                            padding: const EdgeInsets.only(
+                              left: 22,
+                              top: 20.0,
+                              bottom: 20,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+
+                                Text(
+                                  'Steps This Week: $totalSteps',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 10, top: 0),
+                          height: 100,
+                          padding: EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFf363f93),
+                              borderRadius: const BorderRadius.only(
+                                bottomRight: Radius.circular(50.0),
+                              ),
+                              boxShadow: [
+                                new BoxShadow(
+                                    color: Color(0xFF363f93).withOpacity(0.5),
+                                    offset: new Offset(-10.0, 0.0),
+                                    blurRadius: 20.0,
+                                    spreadRadius: 4.0),
+                              ],
+                            ),
+                            padding: const EdgeInsets.only(
+                              left: 22,
+                              top: 20.0,
+                              bottom: 20,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+
+                                Text(
+                                  'Weekly Average Heartrate: $weeklyHeartRateAverage',                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                        ),
+                        // widget display for surveychart
+
+                        Container(
+                            child: Card(
+
+                          margin: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(16),
+                                child: widget.userEmail != null
+                                    ? SurveyChart(userEmail: widget.userEmail!)
+                                    : Container(),
+                              ),
+                            ],
+                          ),
+                        ))
+
+
+
+
+                      ],
+                    )
+                ),
                 // widget display for steps
-                Card(
-                    color: Colors.black12,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                    margin: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(16),
-                          child: const Text('Weekly Screentime: 15 hours',
-                              style: TextStyle(
-                                  fontSize: 21,
-                                  color: Colors.white
-                              )
-                          ),
-                        ),
-                      ],
-                    )),
-
-                Card(
-                  color: Colors.black12,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)
-                  ),
-                  margin: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        child: Text(
-                          'Steps This Week: $totalSteps',
-                            style: TextStyle(
-                                fontSize: 21,
-                                color: Colors.white
-                            )
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // widget display for heart rate
-                Card(
-                  color: Colors.black12,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)),
-                  margin: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        child: Text(
-                          'Weekly Average Heartrate: $weeklyHeartRateAverage',
-                            style: TextStyle(
-                                fontSize: 21,
-                                color: Colors.white
-                            )
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // widget display for weekly sentiment
-                Card(
-                    color: Colors.black12,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                    margin: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(16),
-                          child: const Text(
-                              'Weekly Sentiment: You have been sad this week. {Suggestion}',
-                              style: TextStyle(
-                                  fontSize: 21,
-                                  color: Colors.white
-                              )
-                          ),
-                        ),
-                      ],
-                    )),
-                // widget display for surveychart
-                Card(
-
-                  margin: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        child: widget.userEmail != null
-                            ? SurveyChart(userEmail: widget.userEmail!)
-                            : Container(),
-                      ),
-                    ],
-                  ),
-                ) // render survey chart
+                // render survey chart
               ],
-            ),
-          ),
         ),
         drawer: Drawer(
             child: ListView(children: [
           DrawerHeader(
-              decoration: BoxDecoration(color: Colors.grey.shade300),
+              decoration: BoxDecoration( color: Color(0x000e95).withOpacity(0.5),
+              ),
               child: const Text('Options Menu')),
           ListTile(
               title: const Text('View/Update Contacts'),
@@ -444,6 +484,9 @@ Future<List<HealthDataPoint>> getHealthData() async{
               onTap: () {
                 _handleSignOut(context);
               }),
-        ])));
+        ]
+            )
+        )
+    );
   }
 }

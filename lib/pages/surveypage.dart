@@ -109,7 +109,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Survey Page"),
-          backgroundColor: Colors.black,
+          backgroundColor: Color(0x000e95).withOpacity(0.5),
         ),
         backgroundColor: Colors.grey[300],
         body: SafeArea(
