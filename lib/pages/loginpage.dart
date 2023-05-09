@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   // text editing controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  final _forgotEmailController = TextEditingController();
 
   // user sign in function
   void signUserIn() async {
@@ -60,6 +60,57 @@ class _LoginPageState extends State<LoginPage> {
 
     }
   }
+  void _sendResetPasswordEmail() async {
+    // show loading circle
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: _forgotEmailController.text);
+      // pop loading circle and show success message
+      Navigator.pop(context);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Password Reset Email Sent'),
+            content: const Text('Please check your email to reset your password.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      // pop loading circle and show error message
+      Navigator.pop(context);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Error Sending Reset Email'),
+            content: Text(e.toString()),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -80,12 +131,17 @@ class _LoginPageState extends State<LoginPage> {
                   // logo
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Icons.radio_button_unchecked,
-                        size: 100,
-                        color: Colors.black,
+                    children:  [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        child: Image(
+                          image: AssetImage('lib/assets/logo.png'),
+
+                        ),
                       ),
+                      SizedBox(width: 12),
+
                       Text("MyCircle",
                           style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 60, color: Colors.black,)),
@@ -94,10 +150,11 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 50),
 
                   // welcome back text
-                  const Text("Welcome back!",
+                  const Text("Welcome!",
                       style: TextStyle(
                         color: Color.fromARGB(255, 79, 77, 77),
                         fontSize: 16,
+                        fontStyle: FontStyle.italic,
                       )),
                   const SizedBox(height: 30),
 
@@ -123,10 +180,51 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
-                          "Forgot Username/Password?",
-                          style: TextStyle(color: Colors.grey[600]),
+// forgot username/password button
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0x000e95).withOpacity(0.5),
+
+                            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {
+                            // show forgot username/password dialog box
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Forgot Username/Password'),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      MyTextField(
+                                        controller: _forgotEmailController,
+                                        hintText: 'Enter Email Address',
+                                        obscureText: false,
+                                        backgroundColor: Colors.white,
+                                      ),
+                                      const SizedBox(height: 20),
+                                      MyButton(
+                                        onTap: _sendResetPasswordEmail,
+                                        message: 'Send Reset Email',
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: const Text(
+                            'Forgot Username/Password?',
+
+                            style: TextStyle(color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                          ),
                         ),
+
                       ],
                     ),
                   ),

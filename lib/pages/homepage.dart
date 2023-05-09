@@ -445,13 +445,40 @@ Future<List<HealthDataPoint>> getHealthData() async{
               ],
         ),
         drawer: Drawer(
-            child: ListView(children: [
-          DrawerHeader(
-              decoration: BoxDecoration( color: Color(0x000e95).withOpacity(0.5),
-              ),
-              child: const Text('Options Menu')),
+            child: ListView(
+              padding: EdgeInsets.zero,
+                children: [
+                  SizedBox(
+                    height: 150,
+                    child: DrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Color(0x000e95).withOpacity(0.5),
+                      ),
+                      child: SizedBox(
+                        height: 10,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Options Menu',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold)),
+                            // Add any additional widgets here
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+
           ListTile(
-              title: const Text('View/Update Contacts'),
+              title: const Text('View/Update Contacts',
+                style: TextStyle(fontWeight: FontWeight.bold,
+                    fontSize: 18
+                ),
+              ),
               onTap: () async {
                 Navigator.push(
                   context,
@@ -467,7 +494,11 @@ Future<List<HealthDataPoint>> getHealthData() async{
                 }
               }),
           ListTile(
-              title: const Text('Take weekly survey'),
+              title: const Text('Take weekly survey',
+                style: TextStyle(fontWeight: FontWeight.bold,
+                fontSize: 18
+                ),
+              ),
               onTap: () {
                 Navigator.push(
                   context,
@@ -480,7 +511,11 @@ Future<List<HealthDataPoint>> getHealthData() async{
 
               ),
           ListTile(
-              title: const Text('Signout'),
+              title: const Text('Signout',
+                style: TextStyle(fontWeight: FontWeight.bold,
+                    fontSize: 18
+                ),
+              ),
               onTap: () {
                 _handleSignOut(context);
               }),
