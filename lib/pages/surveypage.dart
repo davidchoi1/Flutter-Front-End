@@ -151,7 +151,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[0].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[0] = value;
@@ -186,7 +186,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[1].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[1] = value;
@@ -221,7 +221,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[2].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[2] = value;
@@ -257,7 +257,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[3].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[3] = value;
@@ -293,7 +293,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[4].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[4] = value;
@@ -334,7 +334,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[5].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[5] = value;
@@ -370,7 +370,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[6].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[6] = value;
@@ -406,7 +406,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[7].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[7] = value;
@@ -442,7 +442,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[8].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[8] = value;
@@ -478,7 +478,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[9].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[9] = value;
@@ -514,7 +514,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[10].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[10] = value;
@@ -550,7 +550,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[11].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[11] = value;
@@ -586,7 +586,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[12].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[12] = value;
@@ -622,7 +622,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[13].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[13] = value;
@@ -658,7 +658,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[14].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[14] = value;
@@ -693,7 +693,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[15].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[15] = value;
@@ -728,7 +728,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[16].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[16] = value;
@@ -764,7 +764,7 @@ Future<void> sendDataToBackend(SurveyData surveyData, String? userEmail) async {
               divisions: MAX_DIVISIONS,
               label: sliderLabels[currentSliderValues[17].toInt()],
               inactiveColor: Colors.grey[200],
-              activeColor: Colors.blueGrey,
+              activeColor: Color(0xFf363f93),
               onChanged: (double value) {
                 setState(() {
                   currentSliderValues[17] = value;
