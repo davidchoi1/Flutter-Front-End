@@ -149,16 +149,8 @@ Future<List<HealthDataPoint>> getHealthData() async{
   } else {
     print('Authorization not granted');
   }
-  // for (var data in healthData) {
-  //   print(
-  //       'Type: ${data.typeString} | Value: ${data.value} | Unit: ${data.unitString} | Date: ${data.dateFrom}');
-  //
-  //   // if (data.type == HealthDataType.STEPS) {
-  //   //   totalSteps += HealthDataType.STEPS as double;
-  //   // }
-  // }
+
   for (var data in healthData) {
-    //print(data.toJson());
 
     if (data.type == HealthDataType.STEPS) {
       totalSteps += int.parse(data.value.toString());
@@ -166,17 +158,6 @@ Future<List<HealthDataPoint>> getHealthData() async{
   }
   print('Total Steps: $totalSteps');
 
-  // double StepCountSum = 0;
-  // int StepCount = 0;
-  // List<double> StepCountWeek = [];
-  // for (var data in healthData) {
-  //   if (data.type == HealthDataType.STEPS) {
-  //     StepCountSum += HealthDataType.STEPS as double;
-  //     StepCount++;
-  //     StepCountWeek.add(HealthDataType.STEPS as double);
-  //   }
-  // }
-  // print(totalSteps);
   double heartRateSum = 0;
   int heartRateCount = 0;
   List<double> heartRates = [];
@@ -194,18 +175,13 @@ Future<List<HealthDataPoint>> getHealthData() async{
       newTotalSteps += int.parse(data.value.toString());
     }
   }
-
   if (heartRateCount > 0) {
     weeklyHeartRateAverage = heartRateSum / heartRateCount;
-    
   }
-
   setState(() {
     totalSteps = newTotalSteps;
     weeklyHeartRateAverage = double.parse(weeklyHeartRateAverage.toStringAsFixed(2));
   });
-  //print(weeklyHeartRateAverage);
- //printHealthData(healthData);
   return healthData;
 }
 

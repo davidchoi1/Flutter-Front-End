@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:fl_chart/fl_chart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
+import 'package:tuple/tuple.dart';
+
 
 class SurveyChart extends StatefulWidget {
   final String userEmail;
@@ -14,42 +17,34 @@ class SurveyChart extends StatefulWidget {
 }
 
 class _SurveyChartState extends State<SurveyChart> {
-  List<FlSpot> chartData = [];
   List<DateTime> createdAtDates = [];
+  List<double> averages = [];
 
-  // initialize values and fetch data
   @override
   void initState() {
-    super.initState(); // call parent class initial state function
+    super.initState();
     fetchData();
   }
 
-  // function to fetch survey data from backend
   Future<void> fetchData() async {
-    String apiUrl =
-        "https://your-backend-api-url.com"; // Replace with your backend API URL
-    final response = await http.get(
-      // contents of get request stored in response (response.body)
-      Uri.parse(apiUrl),
-      headers: {
-        'Content-Type': 'application/json',
-        'userEmail': widget.userEmail,
-      },
-    );
+    // Generate 10 random sentiment scores between 0 and 5, sorted in ascending order
+    List<double> scores = List.generate(10, (index) => ( (Random().nextInt(5))+1) * 0.5);
 
-    if (response.statusCode == 200) {
-      List<dynamic> data = jsonDecode(
-          response.body); // decode and store response json contents into a list
-      processChartData(data); // pass decoded data into process chart function
-    } else {
-      print("Error fetching data: ${response.statusCode}");
-    }
+    // Generate corresponding dates in ascending order
+    List<DateTime> dates = List.generate(10, (index) {
+      // Create a date between May 1, 2023 and May 10, 2023, sorted in ascending order
+      return DateTime(2023, 5, index + 1);
+    });
+
+    // Set the state with the generated data
+    averages = scores;
+    createdAtDates = dates;
+    setState(() {});
   }
 
-  // function to process survey data into survey chart
+
   void processChartData(List<dynamic> data) {
-    List<double> averages = []; // create list to hold average values
-    data.forEach((survey) {                                   
+    data.forEach((survey) {
       Map<String, dynamic> surveyMap = survey['surveyMap'];
       double sum = 0;
       int count = 0;
@@ -60,68 +55,41 @@ class _SurveyChartState extends State<SurveyChart> {
       });
 
       double average = sum / count;
-      averages.add(average);
-      createdAtDates.add(DateTime.parse(survey['createdAt']));
+      averages.add(average); //this would contain the sentiment scores from the backend
+      createdAtDates.add(DateTime.parse(survey['createdAt'])); //this will contain the dates for each sentiment score
     });
 
-    setState(() {
-      int daysSinceFirstSurvey(DateTime date) {
-        return date.difference(createdAtDates.first).inDays;
-      }
+    // Filter out dates that are before today's date
+    final today = DateTime.now();
+    createdAtDates = createdAtDates.where((date) => date.isAfter(today)).toList();
 
-      chartData = averages
-          .asMap()
-          .entries
-          .map((entry) => FlSpot(
-              daysSinceFirstSurvey(createdAtDates[entry.key]) as double,
-              entry.value))
-          .toList();
-    });
+    setState(() {});
   }
 
-  // In the build method, modify LineChartData to show custom X-axis labels
+  @override
   Widget build(BuildContext context) {
-     return Container();
-    //   height: 300,
-    //   child: LineChart(
-    //     LineChartData(
-    //       gridData: FlGridData(show: false),
-    //       titlesData: FlTitlesData(
-    //         show: true,
-    //         bottomTitles: SideTitles(
-    //           showTitles: true,
-    //           getTextStyles: (BuildContext context, double value) => const TextStyle(color: Colors.black, fontSize: 12),
-    //           getTitles: (value) {
-    //             int index = createdAtDates.indexWhere((date) =>
-    //                 date.difference(createdAtDates.first).inDays ==
-    //                 value.toInt());
-    //             if (index != -1) {
-    //               return DateFormat('MM/dd/yyyy').format(createdAtDates[index]);
-    //             }
-    //             return '';
-    //           },
-    //         ),
-    //         leftTitles: SideTitles(showTitles: true),
-    //       ),
-    //       borderData: FlBorderData(show: false),
-    //       minX: 0,
-    //       maxX: (createdAtDates.last.difference(createdAtDates.first).inDays)
-    //           .toDouble(),
-    //       minY: 0,
-    //       maxY: 10, // Change the range based on your data values
-    //       lineBarsData: [
-    //         LineChartBarData(
-    //           spots: chartData,
-    //           isCurved: true,
-    //           color: Colors.blue,
-    //           barWidth: 2,
-    //           isStrokeCapRound: true,
-    //           dotData: FlDotData(show: false),
-    //           belowBarData: BarAreaData(show: false),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
+    return SfCartesianChart(
+      primaryXAxis: DateTimeAxis(dateFormat: DateFormat('MM/dd/yyyy')),
+      primaryYAxis: NumericAxis(minimum: 0, maximum: 5), // Change the range based on your data values
+      series: <ChartSeries>[
+        LineSeries<Tuple2<DateTime, double>, DateTime>(
+          dataSource: List.generate(
+            createdAtDates.length,
+                (index) => Tuple2(createdAtDates[index], averages[index]), //createdAtDates and averages would be the data returned from the backend
+          ),
+          xValueMapper: (Tuple2<DateTime, double> data, _) => data.item1,
+          yValueMapper: (Tuple2<DateTime, double> data, _) => data.item2,
+        ),
+      ],
+    );
   }
+
+
+}
+
+class Tuple<T1, T2> {
+  final T1 item1;
+  final T2 item2;
+
+  Tuple(this.item1, this.item2);
 }

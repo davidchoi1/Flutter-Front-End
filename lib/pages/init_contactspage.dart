@@ -20,7 +20,7 @@ class _InitContactsPageState extends State<InitContactsPage> {
   final _formkey = GlobalKey<FormState>();
 
   List<Contact> contacts =
-      List.empty(growable: true); // list to stored created contacts
+  List.empty(growable: true); // list to stored created contacts
 
   // controllers for textfields
   final nameController = TextEditingController();
@@ -32,11 +32,11 @@ class _InitContactsPageState extends State<InitContactsPage> {
   final RegExp phoneRegex = RegExp(r'^\d{10}$');
 
   // navigate to next
-  _navigateToNext(context, UserData userData) {                                  
+  _navigateToNext(context, UserData userData) {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => HomePage(userEmail: widget.userData.email)),
-      (route) => false,
+          (route) => false,
     );
   }
 
@@ -87,7 +87,7 @@ class _InitContactsPageState extends State<InitContactsPage> {
                         nameController.text = contacts[index].name.trim();
                         numberController.text = contacts[index].number.trim();
                         setState(
-                          () {
+                              () {
                             selectedIndex = index;
                           },
                         );
@@ -108,9 +108,13 @@ class _InitContactsPageState extends State<InitContactsPage> {
   }
 
   void sendUserData(UserData userData) async {
-    String apiUrl = 'https://your-backend-url.com/api/register';
-    Map<String, String> headers = {'Content-Type': 'application/json'};
+    String apiUrl = 'https://signupflow.azurewebsites.net/api/personalinfo';
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Request-Type': 'Add'
+    };
     String body = json.encode(userData.toJson());
+    debugPrint("body of frontend payload request: $body");
 
     try {
       final response = await http.post(
@@ -148,7 +152,7 @@ class _InitContactsPageState extends State<InitContactsPage> {
             const Text('Enter the names and numbers of at least 2 trusted friends/family!'),
             const SizedBox(height: 20),
             MyTextFormField(
-                // name textfield
+              // name textfield
                 controller: nameController,
                 hintText: 'Contact Name',
                 inputError: 'Please include name',
@@ -165,7 +169,7 @@ class _InitContactsPageState extends State<InitContactsPage> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Color.fromARGB(255, 56, 52, 52)),
+                    BorderSide(color: Color.fromARGB(255, 56, 52, 52)),
                   ),
                   fillColor: Colors.white,
                   filled: true,
@@ -204,7 +208,7 @@ class _InitContactsPageState extends State<InitContactsPage> {
                   child: const Text('Add'),
                 ),
                 ElevatedButton(
-                    // update button
+                  // update button
                     onPressed: () {
                       String name = nameController.text.trim();
                       String number = numberController.text.trim();
@@ -222,7 +226,7 @@ class _InitContactsPageState extends State<InitContactsPage> {
                       backgroundColor: Colors.black, // Background color
                       shape: RoundedRectangleBorder(
                         borderRadius:
-                            BorderRadius.circular(16), // Rounded corners
+                        BorderRadius.circular(16), // Rounded corners
                       ),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 32, vertical: 16), // Button padding
@@ -233,14 +237,14 @@ class _InitContactsPageState extends State<InitContactsPage> {
             const SizedBox(height: 20),
             contacts.isEmpty // if contacts list is empty, print empty statement
                 ? const Text('No Contacts yet...',
-                    style: TextStyle(fontSize: 22))
+                style: TextStyle(fontSize: 22))
                 : Expanded(
-                    // if not empty, build list with contents
-                    child: ListView.builder(
-                        itemCount: contacts.length, // item count
-                        itemBuilder: (context, index) => getRow(
-                            index)), // for each item, builds with context and takes in the index
-                  ),
+              // if not empty, build list with contents
+              child: ListView.builder(
+                  itemCount: contacts.length, // item count
+                  itemBuilder: (context, index) => getRow(
+                      index)), // for each item, builds with context and takes in the index
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: MyButton(
@@ -253,7 +257,7 @@ class _InitContactsPageState extends State<InitContactsPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                             content:
-                                Text('Please add at least 2 contacts.')),
+                            Text('Please add at least 2 contacts.')),
                       );
                     }
                   },
